@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+
 from selenium import webdriver
 sys.path.append(os.path.join(os.getcwd(), ".."))
 from pages.order_page import OrderPage
@@ -34,9 +36,10 @@ class TestOrder:
         order_page.tap_order_in_the_order_form_button()
         order_page.tap_yes_button()
         order_page.tap_order_completed_form()
-        # order_page.tap_logo_scooter_button()
-        # order_page.tap_logo_yandex_button()
+        order_page.tap_logo_scooter_button()
+        order_page.tap_logo_yandex_button()
 
+        assert self.driver.current_url == "https://dzen.ru/?yredirect=true"
 
     @classmethod
     def teardown_class(cls):

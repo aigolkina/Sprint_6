@@ -12,9 +12,9 @@ from selenium.webdriver.common.by import By
 
 
 class OrderPage:
-
     __order_navbar_button = (By.CLASS_NAME, "Button_Button__ra12g")  # Кнопка "Заказать" в навбаре
-    __order_button = (By.CLASS_NAME, "Button_Button__ra12g Button_Middle__1CSJM")  # Кнопка "Заказать" в блоке "Как это работает"
+    __order_button = (
+    By.CLASS_NAME, "Button_Button__ra12g Button_Middle__1CSJM")  # Кнопка "Заказать" в блоке "Как это работает"
     __logo_scooter_button = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")  # Логотип "Самокат"
     __logo_yandex_button = (By.CLASS_NAME, "Header_LogoYandex__3TSOI")  # Логотип "Яндекс"
     __name_input = (By.XPATH, "//input[@placeholder='* Имя']")  # Поле "Имя"
@@ -25,14 +25,18 @@ class OrderPage:
     __telephone_input = (By.XPATH, "//input[@placeholder='* Телефон: на него позвонит курьер']")  # Поле "Телефон"
     __further_button = (By.XPATH, "//*[@id=\"root\"]/div/div[2]/div[3]/button")  # Кнопка "Далее"
     __date_input = (By.XPATH, "//input[@placeholder='* Когда привезти самокат']")  # Поле "Когда привезти самокат"
-    __date_button = (By.XPATH, "//div[@class='react-datepicker__day react-datepicker__day--019 react-datepicker__day--selected react-datepicker__day--weekend'][text()='19']")  # Датапикер "Когда привезти заказ"
+    __date_button = (By.XPATH,
+                     "//div[@class='react-datepicker__day react-datepicker__day--019 react-datepicker__day--selected react-datepicker__day--weekend'][text()='19']")  # Датапикер "Когда привезти заказ"
     __rental_period_input = (By.CLASS_NAME, "Dropdown-root")  # Поле "Срок аренды"
-    __rental_period_button = (By.XPATH, "//div[@class='Dropdown-option'][text()='двое суток']")  # Срок аренды "двое суток"
+    __rental_period_button = (
+    By.XPATH, "//div[@class='Dropdown-option'][text()='двое суток']")  # Срок аренды "двое суток"
     __color_checkbox = (By.ID, "black")  # Поле "Цвет самоката"
     __a_comment_input = (By.XPATH, "//input[@placeholder='Комментарий для курьера']")  # Поле "Комментарий для курьера"
     __order_in_the_order_form_button = (By.XPATH, "//*[@id=\"root\"]/div/div[2]/div[3]/button[2]")  # Кнопка "Заказать"
-    __yes_button = (By.XPATH, "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Да']")  # Кнопка "Да" на поп-ап'е
-    __order_completed_form = (By.XPATH, "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Посмотреть статус']")  # Всплывающее окно с сообщением об успешном создании заказа
+    __yes_button = (
+    By.XPATH, "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Да']")  # Кнопка "Да" на поп-ап'е
+    __order_completed_form = (By.XPATH,
+                              "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Посмотреть статус']")  # Всплывающее окно с сообщением об успешном создании заказа
 
     def __init__(self, driver):
         self.driver = driver
@@ -88,7 +92,7 @@ class OrderPage:
         element_date.send_keys("19.10.2024")  # Ввести данные
 
     def tap_date_button(self):
-        element_date_button= WebDriverWait(self.driver, Models.WAIT_TIME).until(
+        element_date_button = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__date_button))
         element_date_button.click()  # Найти дату в датапикере и тапнуть на нее
 
@@ -130,14 +134,13 @@ class OrderPage:
     def tap_logo_scooter_button(self):
         element_logo_scooter = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__logo_scooter_button))
-        element_logo_scooter.click()  # Переход по лого "Самокат"
+        self.driver.execute_script('arguments[0].click()',
+                                   element_logo_scooter)  # Переход по лого "Самокат" в навбаре и тапнуть на него
 
-    # def tap_logo_yandex_button(self):
-    #     element_logo_yandex = WebDriverWait(self.driver, Models.WAIT_TIME).until(
-    #         expected_conditions.element_to_be_clickable(self.__logo_scooter_button))
-    #     element_logo_yandex.click()  # Найти лого "Яндекс" в навбаре и тапнуть на него
-
-    # def tap
-    #     time.sleep(3)
-    #     driver.switch_to.window(self.driver.window_handles[1])
-    #     assert driver.current_url == "https://dzen.ru/?yredirect=true"  # Проверка перехода в Дзен
+    def tap_logo_yandex_button(self):
+        element_logo_yandex = WebDriverWait(self.driver, Models.WAIT_TIME).until(
+            expected_conditions.element_to_be_clickable(self.__logo_yandex_button))
+        self.driver.execute_script('arguments[0].click()',element_logo_yandex)  # Найти лого "Яндекс" в навбаре и тапнуть на него
+        self.driver.switch_to.window(self.driver.window_handles[1])  # Проверка перехода в Дзен
+        time.sleep(3)
+        return self.driver.current_url
