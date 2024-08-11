@@ -46,11 +46,11 @@ class OrderPage:
             expected_conditions.element_to_be_clickable(self.__order_navbar_button))
         element_order_navbar.click()  # Найти кнопку "Заказать" в навбаре и тапнуть на нее
 
-    def tap_name_input(self):
+    def tap_name_input(self, name):
         element_name = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__name_input))
         element_name.click()  # Найти поле "Имя" и тапнуть на него
-        element_name.send_keys("Анастасия")  # Ввести данные
+        element_name.send_keys(name)  # Ввести данные
 
     def tap_surname_input(self):
         element_surname = WebDriverWait(self.driver, Models.WAIT_TIME).until(
@@ -58,11 +58,11 @@ class OrderPage:
         element_surname.click()  # Найти поле "Фамилия" и ввести данные
         element_surname.send_keys("Иголкина")  # Ввести данные
 
-    def tap_address_input(self):
+    def tap_address_input(self, address):
         element_address = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__address_input))
         element_address.click()  # Найти поле "Адрес" и ввести данные
-        element_address.send_keys("Ленинградский проспект, д.70")  # Ввести данные
+        element_address.send_keys(address)  # Ввести данные
 
     def tap_metro_station(self):
         element_metro_station = WebDriverWait(self.driver, Models.WAIT_TIME).until(
