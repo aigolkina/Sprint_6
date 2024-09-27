@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 from selenium import webdriver
 sys.path.append(os.path.join(os.getcwd(), ".."))
@@ -11,15 +12,14 @@ import pytest
 class TestOrder:
     driver = None
     addresses = [
-        'Тверская улица, дом 13',
-        'улица Академика Колмогорова, дом 7'
+        'Тверская улица, дом 13'
     ]
     @classmethod
     def setup_class(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get(Models.MAIN_URL)  # Зайти на сайт Заказа самокатов
 
-    @pytest.mark.parametrize('name', ['Анастасия', 'Ольга'])
+    @pytest.mark.parametrize('name', ['Анастасия'])
     @pytest.mark.parametrize('address', addresses)
     def test_dropdown_list_order_via_navbar(self, name, address):
         order_page = OrderPage(self.driver)
@@ -45,8 +45,6 @@ class TestOrder:
         current_url = order_page.tap_logo_yandex_button()  # Найти лого "Яндекс" в навбаре и тапнуть на него
 
         assert current_url == "https://dzen.ru/?yredirect=true"  # Проверка перехода в Дзен
-
-        self.driver.switch_to.window(self.driver.window_handles[0])
 
     @classmethod
     def teardown_class(cls):

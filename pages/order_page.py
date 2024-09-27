@@ -135,5 +135,8 @@ class OrderPage:
     def tap_logo_yandex_button(self):
         element_logo_yandex = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__logo_yandex_button))
-        self.driver.execute_script('arguments[0].click()', element_logo_yandex)  # Найти лого "Яндекс" в навбаре и тапнуть на него
+        self.driver.execute_script('arguments[0].click()',
+                                   element_logo_yandex)  # Найти лого "Яндекс" в навбаре и тапнуть на него
         self.driver.switch_to.window(self.driver.window_handles[1])  # Проверка перехода в Дзен
+        time.sleep(3)
+        return self.driver.current_url
