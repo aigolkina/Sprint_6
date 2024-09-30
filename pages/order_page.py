@@ -12,7 +12,6 @@ from selenium.webdriver.common.by import By
 
 
 class OrderPage:
-
     __order_navbar_button = (By.CLASS_NAME, "Button_Button__ra12g")  # Кнопка "Заказать" в навбаре
     __order_button = (By.CLASS_NAME, "Button_Button__ra12g Button_Middle__1CSJM")  # Кнопка "Заказать" в блоке "Как это работает"
     __logo_scooter_button = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")  # Логотип "Самокат"
@@ -33,6 +32,7 @@ class OrderPage:
     __order_in_the_order_form_button = (By.XPATH, "//*[@id=\"root\"]/div/div[2]/div[3]/button[2]")  # Кнопка "Заказать"
     __yes_button = (By.XPATH, "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Да']")  # Кнопка "Да" на поп-ап'е
     __order_completed_form = (By.XPATH, "//button[@class='Button_Button__ra12g Button_Middle__1CSJM'][text()='Посмотреть статус']")  # Всплывающее окно с сообщением об успешном создании заказа
+    __profile_menu_logo = (By.XPATH, "//div[@class='ask-permissions__avatarIcon-3z'][text()='Меню профиля']")  # Лого меню профиля в Дзене
 
     def __init__(self, driver):
         self.driver = driver
@@ -42,11 +42,11 @@ class OrderPage:
             expected_conditions.element_to_be_clickable(self.__order_navbar_button))
         element_order_navbar.click()  # Найти кнопку "Заказать" в навбаре и тапнуть на нее
 
-    def tap_name_input(self):
+    def tap_name_input(self, name):
         element_name = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__name_input))
         element_name.click()  # Найти поле "Имя" и тапнуть на него
-        element_name.send_keys("Анастасия")  # Ввести данные
+        element_name.send_keys(name)  # Ввести данные
 
     def tap_surname_input(self):
         element_surname = WebDriverWait(self.driver, Models.WAIT_TIME).until(
@@ -54,11 +54,11 @@ class OrderPage:
         element_surname.click()  # Найти поле "Фамилия" и ввести данные
         element_surname.send_keys("Иголкина")  # Ввести данные
 
-    def tap_address_input(self):
+    def tap_address_input(self, address):
         element_address = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__address_input))
         element_address.click()  # Найти поле "Адрес" и ввести данные
-        element_address.send_keys("Ленинградский проспект, д.70")  # Ввести данные
+        element_address.send_keys(address)  # Ввести данные
 
     def tap_metro_station(self):
         element_metro_station = WebDriverWait(self.driver, Models.WAIT_TIME).until(
@@ -88,7 +88,7 @@ class OrderPage:
         element_date.send_keys("19.10.2024")  # Ввести данные
 
     def tap_date_button(self):
-        element_date_button= WebDriverWait(self.driver, Models.WAIT_TIME).until(
+        element_date_button = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__date_button))
         element_date_button.click()  # Найти дату в датапикере и тапнуть на нее
 
@@ -130,14 +130,13 @@ class OrderPage:
     def tap_logo_scooter_button(self):
         element_logo_scooter = WebDriverWait(self.driver, Models.WAIT_TIME).until(
             expected_conditions.element_to_be_clickable(self.__logo_scooter_button))
-        element_logo_scooter.click()  # Переход по лого "Самокат"
+        self.driver.execute_script('arguments[0].click()', element_logo_scooter)  # Переход по лого "Самокат" в навбаре и тапнуть на него
 
-    # def tap_logo_yandex_button(self):
-    #     element_logo_yandex = WebDriverWait(self.driver, Models.WAIT_TIME).until(
-    #         expected_conditions.element_to_be_clickable(self.__logo_scooter_button))
-    #     element_logo_yandex.click()  # Найти лого "Яндекс" в навбаре и тапнуть на него
-
-    # def tap
-    #     time.sleep(3)
-    #     driver.switch_to.window(self.driver.window_handles[1])
-    #     assert driver.current_url == "https://dzen.ru/?yredirect=true"  # Проверка перехода в Дзен
+    def tap_logo_yandex_button(self):
+        element_logo_yandex = WebDriverWait(self.driver, Models.WAIT_TIME).until(
+            expected_conditions.element_to_be_clickable(self.__logo_yandex_button))
+        self.driver.execute_script('arguments[0].click()',
+                                   element_logo_yandex)  # Найти лого "Яндекс" в навбаре и тапнуть на него
+        self.driver.switch_to.window(self.driver.window_handles[1])  # Проверка перехода в Дзен
+        time.sleep(3)
+        return self.driver.current_url
